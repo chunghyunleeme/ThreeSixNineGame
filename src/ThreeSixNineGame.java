@@ -7,15 +7,30 @@ public class ThreeSixNineGame {
         return numberStr;
     }
 
-    private void playGame(String[] players) {
-        for(int i = 1; i <= 100; i++){
+    private void playGame(Player[] players) {
+        int i = 1;
+        while(true){
+            Player currentPlayer = players[(i - 1) % players.length];
             String result = do369(i);
-            System.out.println(players[(i - 1) % players.length] + ": " + result);
+
+            if(currentPlayer.willMakeMistake()) {
+                if(result.equals("clap")) System.out.println(currentPlayer.getName() + ": " + i);
+                else System.out.println(currentPlayer.getName() + ": " + "clap");
+                break;
+            }
+
+            System.out.println(currentPlayer.getName() + ": " + result);
+            i++;
         }
     }
 
     public static void main(String[] args) {
-        String[] players = {"영수", "광수", "영철", "상철"};
+        Player[] players = {
+                new Player("영수", 0.1),
+                new Player("광수", 0.1),
+                new Player("영철", 0.1),
+                new Player("상철", 0.1)
+        };
         new ThreeSixNineGame().playGame(players);
     }
 }
