@@ -7,10 +7,28 @@ public class Main {
                 new Player("상철", 0.1)
         };
 
-        ThreeSixNineGame seoulGame = new SeoulGame();
-        ThreeSixNineGame busanGame = new BusanGame();
+        ClapCounter clapCounter = new ClapCounter();
 
-        seoulGame.playGame(players);
-        busanGame.playGame(players);
+        Thread seoulThread = new Thread(() -> {
+            ThreeSixNineGame seoulGame = new SeoulGame();
+            seoulGame.playGame(players, clapCounter);
+        });
+
+        Thread busanThread = new Thread(() -> {
+            ThreeSixNineGame busanGame = new BusanGame();
+            busanGame.playGame(players, clapCounter);
+        });
+
+        seoulThread.start();
+        busanThread.start();
+
+        try {
+            seoulThread.join();
+            busanThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        clapCounter.printClapCount();
     }
 }
