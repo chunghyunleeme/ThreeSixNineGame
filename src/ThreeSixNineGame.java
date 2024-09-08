@@ -1,15 +1,13 @@
-public abstract class ThreeSixNineGame {
-    abstract String do369(int number);
-
-    void playGame(Player[] players, ClapCounter clapCounter) {
-        int i = 1;
+public abstract class ThreeSixNineGame implements IThreeSixNineGame{
+    public void playGame(Player[] players, ClapCounter clapCounter) {
+        int index = 1;
         while(true){
-            Player currentPlayer = players[(i - 1) % players.length];
-            String result = do369(i);
+            Player currentPlayer = players[(index - 1) % players.length];
+            String result = do369(index);
 
             // 기저 case
-            if(currentPlayer.willMakeMistake()) {
-                if(result.equals("clap")) System.out.printf("[%s] %s: %d\n", this.getClass().getName(), currentPlayer.getName(), i);
+            if(currentPlayer.mistakes()) {
+                if(result.equals("clap")) System.out.printf("[%s] %s: %d\n", this.getClass().getName(), currentPlayer.getName(), index);
                 else System.out.printf("[%s] %s: %s\n", this.getClass().getName(), currentPlayer.getName(), "clap");
                 break;
             }
@@ -20,9 +18,8 @@ public abstract class ThreeSixNineGame {
                 clapCounter.addClap(result.length() / 4);
             }
 
-//            System.out.println(this.getClass().getName() + currentPlayer.getName() + ": " + result);
             System.out.printf("[%s] %s: %s\n", this.getClass().getName(), currentPlayer.getName(), result);
-            i++;
+            index++;
         }
     }
 }

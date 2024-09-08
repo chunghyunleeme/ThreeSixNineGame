@@ -1,6 +1,6 @@
 public class Player {
-    private String name;
-    private double errorRate;
+    private final String name;
+    private final double errorRate;
 
     public Player(String name, double errorRate) {
         this.name = name;
@@ -11,7 +11,7 @@ public class Player {
         return this.name;
     }
 
-    public boolean willMakeMistake(){
+    public boolean mistakes(){
         return Math.random() < this.errorRate;
     }
 }
